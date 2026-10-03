@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ericka Pricila — XR &amp; Game Developer</title>
+<meta name="description" content="Ericka Pricila — XR &amp; Game Developer. Unity, C#, VR, AR and interactive experiences.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2E8D6;
+  --paper-2:#ECE0C9;
+  --orange:#D94E1F;
+  --orange-soft:rgba(217,78,31,.5);
+  --orange-ink:#86300F;
+  --ink:#171310;
+  --ink-55:rgba(23,19,16,.58);
+  --ink-30:rgba(23,19,16,.3);
+  --rule:#CBBCA0;
+  --mono:"Space Mono",ui-monospace,Menlo,monospace;
+  --disp:"Space Grotesk",Helvetica,Arial,sans-serif;
+  --rail:248px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--disp);font-size:16px;line-height:1.58;-webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--ink);color:var(--paper)}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;font-family:var(--disp);font-weight:700;line-height:1.03;letter-spacing:-.03em}
+p{margin:0 0 14px}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+
+.mono{font-family:var(--mono)}
+.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase}
+.mtext{font-family:var(--mono);font-size:12.5px;line-height:1.75}
+.dim{color:var(--ink-55)}
+.prose{font-size:16px;line-height:1.62;max-width:64ch}
+.prose--mono{font-family:var(--mono);font-size:13px;line-height:1.75;max-width:66ch}
+
+/* ============ RAIL ============ */
+.rail{
+  position:fixed;inset:0 auto 0 0;width:var(--rail);
+  border-right:1px solid var(--rule);padding:26px 22px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:24px;
+  background:var(--paper);z-index:60;
+}
+.rail__id a{text-decoration:none;display:block}
+.rail__name{font-size:19px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.rail__role{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-top:6px}
+.idx{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.idx li{border-bottom:1px solid var(--rule)}
+.idx a{
+  display:flex;gap:10px;align-items:baseline;padding:8px 2px;text-decoration:none;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-55);transition:color .15s,padding-left .2s;
+}
+.idx a i{font-style:normal;font-size:10px;color:var(--ink-30);min-width:20px}
+.idx a:hover{color:var(--ink);padding-left:6px}
+.idx a.on{color:var(--orange)}
+.idx a.on i{color:var(--orange)}
+.status{border-top:1px solid var(--rule);padding-top:12px;font-family:var(--mono);font-size:10.5px;line-height:1.9;color:var(--ink-55);letter-spacing:.04em}
+.status b{font-weight:400;color:var(--ink)}
+.tl__proj{margin:18px 0 0;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink-55)}
+.tl__proj b{font-weight:400;text-transform:uppercase;letter-spacing:.14em;font-size:10px;color:var(--orange);margin-right:8px}
+.tl__proj a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:1px}
+.tl__proj a:hover{border-bottom-color:var(--orange);color:var(--orange)}
+/* ---- featured release ---- */
+.feat{border:1px solid var(--ink);margin-top:24px}
+.feat__h{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:12px 14px;border-bottom:1px solid var(--ink)}
+.feat__t{font-size:clamp(18px,2vw,22px);font-weight:700;letter-spacing:-.025em}
+.feat__m{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);white-space:nowrap}
+.feat__b{padding:16px 14px}
+.feat__b p{font-family:var(--mono);font-size:12.5px;line-height:1.72;margin:0 0 4px;max-width:58ch}
+.feat .go{margin-top:18px}
+@media(max-width:520px){.feat__h{flex-direction:column;align-items:flex-start;gap:4px}}
+/* ---- attribution bullets ---- */
+.blist{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:12.5px;line-height:1.65}
+.blist li{position:relative;padding-left:15px;margin-bottom:8px;max-width:66ch}
+.blist li:last-child{margin-bottom:0}
+.blist li::before{content:"";position:absolute;left:0;top:.58em;width:5px;height:5px;background:var(--orange)}
+.blist--sm{font-size:12px}
+.blist-h{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin:20px 0 11px}
+/* ---- interactive figure ---- */
+.demo{position:relative;outline:none}
+.fig{width:100%;height:auto;display:block}
+#cube,#bubble{transition:transform .16s cubic-bezier(.2,.85,.25,1)}
+.tile{fill:transparent;cursor:pointer}
+.tile.hit{fill:var(--orange);fill-opacity:.22}
+.key{transition:fill .16s}
+.key.hit{fill:var(--orange)}
+@media(prefers-reduced-motion:reduce){#cube,#bubble{transition:none}}
+.bubble{transform-box:fill-box;transform-origin:50% 100%}
+@media(prefers-reduced-motion:no-preference){
+  .bubble{animation:bob 3.6s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+}
+.live{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange);margin-right:6px;vertical-align:1px}
+@media(prefers-reduced-motion:no-preference){
+  .live{animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+}
+
+.main{margin-left:var(--rail)}
+@media(max-width:1000px){
+  .rail{
+    position:sticky;inset:0 auto auto 0;width:auto;height:auto;flex-direction:row;
+    align-items:center;justify-content:flex-start;gap:18px;padding:12px 18px;
+    border-right:0;border-bottom:1px solid var(--rule);overflow-x:auto;
+  }
+  .rail__name{font-size:15px;white-space:nowrap}
+  .rail__role,.status{display:none}
+  .idx{display:flex;border-top:0}
+  .idx li{border-bottom:0;border-left:1px solid var(--rule)}
+  .idx a{padding:4px 12px;font-size:10.5px;white-space:nowrap}
+  .idx a i{display:none}
+  .main{margin-left:0}
+}
+
+/* ============ SECTION SHELL ============ */
+.sec{border-top:1px solid var(--rule);padding:84px 52px}
+.sheet{display:grid;grid-template-columns:116px minmax(0,1fr);gap:0;max-width:1180px}
+.sheet__mk{position:sticky;top:34px;align-self:start;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);line-height:1.9}
+.sheet__mk span{display:block;color:var(--ink-30)}
+.h2{font-size:clamp(28px,3.6vw,46px);margin-bottom:18px;max-width:17ch}
+.lede{margin-bottom:40px}
+@media(max-width:860px){
+  .sec{padding:56px 20px}
+  .sheet{grid-template-columns:1fr}
+  .sheet__mk{position:static;margin-bottom:18px}
+}
+
+/* ============ HERO ============ */
+.hero{padding:0 52px;min-height:calc(100vh - 2px);display:flex;flex-direction:column;justify-content:center;gap:40px;position:relative;overflow:hidden}
+.hero__grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center;padding-top:60px}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);padding:5px 11px;margin-bottom:26px}
+.pill span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
+h1{font-size:clamp(36px,5.6vw,68px);font-weight:700;letter-spacing:-.045em;max-width:13ch;margin-bottom:24px}
+h1 em{font-style:normal;color:var(--orange)}
+.hero__art svg{width:100%;height:auto;display:block}
+@media(max-width:1100px){
+  .hero{padding:0 20px;min-height:0;padding-top:56px;padding-bottom:40px}
+  .hero__grid{grid-template-columns:1fr;padding-top:0;gap:28px}
+  .hero__art{max-width:460px}
+}
+
+/* ============ TICKER ============ */
+.ticker{background:var(--orange);color:var(--paper);border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);overflow:hidden;padding:9px 0}
+.ticker__t{display:flex;width:max-content;font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+.ticker__t span{padding-right:26px}
+@media(prefers-reduced-motion:no-preference){
+  .ticker__t{animation:slide 42s linear infinite}
+  .ticker:hover .ticker__t{animation-play-state:paused}
+  @keyframes slide{to{transform:translateX(-50%)}}
+}
+
+/* ============ WORK ACCORDION ============ */
+.proj{border-top:1px solid var(--ink)}
+.proj:last-of-type{border-bottom:1px solid var(--ink)}
+.proj>summary{
+  list-style:none;cursor:pointer;display:grid;
+  grid-template-columns:58px minmax(0,1fr) 190px 26px;align-items:center;gap:16px;
+  padding:20px 8px;transition:background .18s,padding-left .18s;
+}
+.proj>summary::-webkit-details-marker{display:none}
+.proj>summary:hover{background:var(--paper-2);padding-left:16px}
+.proj__n{font-family:var(--mono);font-size:11px;color:var(--orange);letter-spacing:.1em}
+.proj__t{font-size:clamp(21px,2.6vw,31px);font-weight:700;letter-spacing:-.03em}
+.proj__k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-55);text-align:right}
+.proj__x{font-family:var(--mono);font-size:17px;text-align:center;color:var(--orange);transition:transform .22s}
+.proj[open] .proj__x{transform:rotate(45deg)}
+.proj__body{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:0;border-top:1px dashed var(--rule)}
+.proj__txt{padding:22px 24px 24px 8px}
+.proj__txt p{font-size:15.5px;max-width:52ch}
+.proj__txt p:last-child{margin-bottom:0}
+.spec{border-left:1px solid var(--rule)}
+.spec__r{display:grid;grid-template-columns:86px 1fr;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:12px}
+.spec__r:last-child{border-bottom:0}
+.spec__k{padding:10px 0 10px 18px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-55)}
+.spec__v{padding:10px 18px 10px 8px;line-height:1.6}
+.go{display:inline-flex;align-items:center;gap:10px;margin-top:20px;border:1px solid var(--ink);padding:8px 14px;text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;transition:background .18s,color .18s}
+.go:hover{background:var(--ink);color:var(--paper)}
+.go--off{border-style:dashed;color:var(--ink-55);pointer-events:none}
+@media(max-width:860px){
+  .proj>summary{grid-template-columns:40px 1fr 22px;gap:10px;padding:16px 4px}
+  .proj__k{display:none}
+  .proj__body{grid-template-columns:1fr}
+  .proj__txt{padding:18px 4px}
+  .spec{border-left:0;border-top:1px solid var(--rule)}
+  .spec__k{padding-left:4px}
+}
+
+/* ============ TABS ============ */
+.tabs{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--ink);border-bottom:0}
+.tab{
+  flex:1 1 auto;appearance:none;background:transparent;border:0;border-right:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);padding:11px 12px;cursor:pointer;color:var(--ink);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  transition:background .16s,color .16s;white-space:nowrap;
+}
+.tab:last-child{border-right:0}
+.tab:hover{background:var(--paper-2)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.panel{border:1px solid var(--ink);border-top:0;padding:28px 26px;display:none}
+.panel[data-open]{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:32px}
+.panel h3{font-size:22px;margin-bottom:14px}
+.panel p{font-family:var(--mono);font-size:12.5px;line-height:1.78;max-width:58ch;margin:0}
+.chips{list-style:none;margin:0;padding:0}
+.chips li{font-family:var(--mono);font-size:11.5px;padding:6px 0;border-bottom:1px dotted var(--rule);display:flex;justify-content:space-between;gap:10px}
+.chips li:last-child{border-bottom:0}
+.chips li::after{content:"●";font-size:7px;color:var(--orange);align-self:center}
+@media(max-width:860px){.panel[data-open]{grid-template-columns:1fr;gap:22px}.tabs{border-bottom:0}.tab{flex:1 1 44%}}
+
+/* ============ FLOW ============ */
+.flow{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+.step{border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:18px 14px 22px;position:relative;transition:background .18s}
+.step:hover{background:var(--paper-2)}
+.step b{display:block;font-family:var(--mono);font-size:10.5px;color:var(--orange);letter-spacing:.14em;margin-bottom:28px}
+.step h4{font-size:16px;margin-bottom:8px}
+.step p{font-family:var(--mono);font-size:11px;line-height:1.7;margin:0;color:var(--ink-55)}
+.step::before{content:"";position:absolute;top:22px;left:14px;right:-1px;border-top:1px dashed var(--orange-soft)}
+.step:last-child::before{right:14px}
+@media(max-width:1000px){.flow{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:620px){.flow{grid-template-columns:1fr}.step::before{display:none}.step b{margin-bottom:10px}}
+
+/* ============ BOM TABLE ============ */
+.bom{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px}
+.bom caption{text-align:left;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55);padding-bottom:10px}
+.bom th{
+  text-align:left;font-weight:400;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--paper);background:var(--ink);padding:9px 14px;
+}
+.bom td{padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.6}
+.bom tr:hover td{background:var(--paper-2)}
+.bom td:first-child{color:var(--orange);white-space:nowrap}
+.bom td:last-child{color:var(--ink-55)}
+@media(max-width:760px){
+  .bom,.bom tbody,.bom tr,.bom td{display:block;width:100%}
+  .bom thead{display:none}
+  .bom tr{border-bottom:1px solid var(--rule);padding:12px 0}
+  .bom td{border-bottom:0;padding:2px 0}
+}
+
+/* ============ TIMELINE ============ */
+.tl{border-left:1px solid var(--rule);padding-left:26px;position:relative}
+.tl__i{padding-bottom:32px;position:relative}
+.tl__i:last-child{padding-bottom:0}
+.tl__i::before{content:"";position:absolute;left:-30px;top:7px;width:9px;height:9px;background:var(--orange);border-radius:50%}
+.tl__y{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--orange);margin-bottom:6px}
+.tl__i h3{font-size:20px;margin-bottom:4px}
+.tl__s{font-family:var(--mono);font-size:11.5px;color:var(--ink-55);margin-bottom:10px}
+.tl__i p{font-family:var(--mono);font-size:12.5px;line-height:1.75;max-width:62ch;margin:0}
+
+/* ============ CONTACT ============ */
+.contact{background:var(--orange);color:var(--paper);border-top:1px solid var(--ink);padding:84px 52px}
+.contact h2{font-size:clamp(32px,5vw,62px);letter-spacing:-.045em;max-width:14ch;margin-bottom:26px;color:var(--paper)}
+.contact .prose--mono{color:rgba(242,232,214,.92)}
+.contact .tag{color:rgba(242,232,214,.75);display:block;margin-bottom:22px}
+.chan{margin-top:44px;border-top:1px solid var(--paper)}
+.chan a{
+  display:grid;grid-template-columns:48px 1fr auto;gap:16px;align-items:center;
+  padding:18px 6px;border-bottom:1px solid var(--paper);text-decoration:none;
+  transition:background .18s,color .18s,padding-left .18s;
+}
+.chan a:hover{background:var(--paper);color:var(--orange);padding-left:18px}
+.chan__n{font-family:var(--mono);font-size:11px;opacity:.7}
+.chan__l{font-size:clamp(20px,2.6vw,28px);font-weight:700;letter-spacing:-.03em}
+.chan__v{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em}
+@media(max-width:860px){.contact{padding:56px 20px}.chan a{grid-template-columns:30px 1fr;gap:12px}.chan__v{display:none}}
+
+/* ============ TITLE BLOCK FOOTER ============ */
+.tblock{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--ink)}
+.tblock div{border-right:1px solid var(--ink);padding:12px 14px;font-family:var(--mono);font-size:11px}
+.tblock div:last-child{border-right:0}
+.tblock b{display:block;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55);font-weight:400;margin-bottom:4px}
+@media(max-width:860px){.tblock{grid-template-columns:1fr 1fr}.tblock div{border-bottom:1px solid var(--ink)}}
+
+/* ============ REVEAL ============ */
+.js .rv{opacity:0;transform:translateY(12px)}
+.js .rv.in{opacity:1;transform:none;transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.3,1)}
+@media(prefers-reduced-motion:reduce){
+  .js .rv{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.className+=" js";</script>
+
+<!-- ================= RAIL ================= -->
+<aside class="rail">
+  <div class="rail__id">
+    <a href="#top">
+      <div class="rail__name">Ericka Pricila</div>
+      <div class="rail__role">XR &amp; Game Developer</div>
+    </a>
+  </div>
+
+  <nav>
+    <ul class="idx">
+      <li><a href="#about"><i>01</i>About</a></li>
+      <li><a href="#experience"><i>02</i>Experience</a></li>
+      <li><a href="#craft"><i>03</i>Craft</a></li>
+      <li><a href="#process"><i>04</i>Process</a></li>
+      <li><a href="#stack"><i>05</i>Stack</a></li>
+      <li><a href="#background"><i>06</i>Background</a></li>
+      <li><a href="#contact"><i>07</i>Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="status">
+    <div><span class="live"></span><b>Open to projects</b></div>
+    <div>Recife — BR / Remote</div>
+    <div>Building since 2014</div>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- ================= HERO ================= -->
+<header id="top" class="hero">
+  <div class="hero__grid">
+    <div>
+      <div class="pill"><span>Unity · C# · VR · AR · Games</span></div>
+      <h1>I build experiences that go <em>beyond the screen</em>.</h1>
+      <p class="prose--mono dim" style="margin-bottom:0">Games, immersive applications, and
+      interactive experiences built with real-time technologies, Virtual Reality, and Augmented
+      Reality.</p>
+    </div>
+
+    <div class="hero__art">
+      <div class="demo" id="demo" tabindex="-1">
+      <!-- Isometric movement grid -->
+      <svg id="demoSvg" class="fig" viewBox="0 0 560 400" role="group"
+           aria-label="Isometric grid demo. Move the cube across the grid with W, A, S and D.">
+        <g fill="none" stroke="var(--orange-soft)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"
+           transform="matrix(0.6495 0.375 -0.6495 0.375 280 258)">
+
+          <!-- grid plane -->
+          <g stroke-width=".85" opacity=".5">
+            <path d="M-160-160H160M-160-120H160M-160-80H160M-160-40H160M-160 0H160M-160 40H160M-160 80H160M-160 120H160M-160 160H160"/>
+            <path d="M-160-160V160M-120-160V160M-80-160V160M-40-160V160M0-160V160M40-160V160M80-160V160M120-160V160M160-160V160"/>
+          </g>
+          <path d="M-160-160H160V160H-160Z" stroke-width="1.4"/>
+
+          <!-- input tiles -->
+          <g stroke-width="1.2">
+            <path class="tile" data-dir="w" d="M-24-154H24V-106H-24Z" role="button" tabindex="0" aria-label="Move up"/>
+            <path class="tile" data-dir="a" d="M-154-24H-106V24H-154Z" role="button" tabindex="0" aria-label="Move left"/>
+            <path class="tile" data-dir="s" d="M-24 106H24V154H-24Z" role="button" tabindex="0" aria-label="Move down"/>
+            <path class="tile" data-dir="d" d="M106-24H154V24H106Z" role="button" tabindex="0" aria-label="Move right"/>
+          </g>
+          <g stroke-dasharray="3 5" opacity=".75">
+            <path d="M0-40V-100M-40 0H-100M0 40V100M40 0H100"/>
+          </g>
+
+          <!-- cube -->
+          <g id="cube">
+            <path d="M-26-26H26V26H-26Z" stroke-dasharray="2 4" opacity=".45"/>
+            <path d="M-78-78H-26V-26H-78Z" stroke="var(--orange)" stroke-width="1.6"/>
+            <path d="M-26-78L-26-26L26 26L26-26Z" stroke="var(--orange)" stroke-width="1.6"/>
+            <path d="M-26-26H-78L-26 26H26Z" stroke="var(--orange)" stroke-width="1.6"/>
+          </g>
+        </g>
+
+        <!-- key labels -->
+        <g font-family="Space Mono, monospace" font-size="16" font-weight="700" text-anchor="middle" fill="var(--orange-ink)">
+          <text class="key" data-dir="w" x="364.4" y="209.25" dy=".35em">W</text>
+          <text class="key" data-dir="a" x="195.6" y="209.25" dy=".35em">A</text>
+          <text class="key" data-dir="s" x="195.6" y="306.75" dy=".35em">S</text>
+          <text class="key" data-dir="d" x="364.4" y="306.75" dy=".35em">D</text>
+        </g>
+
+        <!-- speech bubble -->
+        <g id="bubble">
+          <g class="bubble">
+            <path d="M244 160H316V198H288L280 210L272 198H244Z"
+                  fill="var(--paper)" stroke="var(--orange)" stroke-width="1.6" stroke-linejoin="miter"/>
+            <text id="bubbleText" x="280" y="179" dy=".35em" text-anchor="middle" font-family="Space Mono, monospace"
+                  font-size="16" font-weight="700" fill="var(--orange-ink)">hi</text>
+          </g>
+        </g>
+      </svg>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__t">
+    <span>UNITY</span><span>·</span><span>C#</span><span>·</span><span>OPENXR</span><span>·</span><span>XR INTERACTION TOOLKIT</span><span>·</span><span>AR FOUNDATION</span><span>·</span><span>META QUEST</span><span>·</span><span>WEBGL</span><span>·</span><span>BLENDER</span><span>·</span><span>FIGMA</span><span>·</span><span>XCODE</span><span>·</span><span>PYTHON</span><span>·</span>
+    <span>UNITY</span><span>·</span><span>C#</span><span>·</span><span>OPENXR</span><span>·</span><span>XR INTERACTION TOOLKIT</span><span>·</span><span>AR FOUNDATION</span><span>·</span><span>META QUEST</span><span>·</span><span>WEBGL</span><span>·</span><span>BLENDER</span><span>·</span><span>FIGMA</span><span>·</span><span>XCODE</span><span>·</span><span>PYTHON</span><span>·</span>
+  </div>
+</div>
+
+<!-- ================= 01 ABOUT ================= -->
+<section id="about" class="sec">
+  <div class="sheet">
+    <div class="sheet__mk">01<span>About</span></div>
+    <div class="rv">
+      <h2 class="h2">Technology has always been my favorite way to create.</h2>
+      <p class="prose">I've been studying computing since I was 14, when I first started learning how
+      games, digital worlds, and interactive experiences were built. Today I design and develop
+      games, immersive applications, and interactive experiences using Virtual Reality and
+      Augmented Reality.</p>
+      <p class="prose">My work combines development and experience design. I mainly use Unity and C#
+      to build real-time applications, while Figma, web technologies, Xcode, AR Foundation, and
+      OpenXR are part of my workflow depending on the platform and the experience I'm creating.</p>
+      <p class="prose">I've worked professionally with software development since 2014, across
+      different technologies, products, and technical challenges. Over time I found immersive
+      computing to be where I feel most at home: at the intersection of engineering, creativity,
+      interaction, and user experience.</p>
+      <p class="prose" style="margin-bottom:0">What I enjoy most is turning ideas into things people
+      can play, explore, and experience — projects where technology isn't just infrastructure, but
+      part of the experience itself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 EXPERIENCE ================= -->
+<section id="experience" class="sec">
+  <div class="sheet">
+    <div class="sheet__mk">02<span>Experience</span></div>
+    <div class="rv">
+      <h2 class="h2">What I've been building.</h2>
+      <p class="prose--mono dim lede">Eight years of Augmented Reality, Virtual Reality, and
+      interactive experiences — product visualisation, immersive worlds, multiplayer prototypes,
+      and every interface in between. Open a row to see what I did.</p>
+
+      <details class="proj" open>
+        <summary>
+          <span class="proj__n">001</span>
+          <span class="proj__t">Augmented Reality</span>
+          <span class="proj__k">Mobile &amp; Tablet AR</span>
+          <span class="proj__x">+</span>
+        </summary>
+        <div class="proj__body">
+          <div class="proj__txt">
+            <p>AR applications ranging from small internal tools to large deliveries: product
+            visualisation, spatial recognition, and operations guided by content anchored in the
+            real world.</p>
+            <span class="blist-h">What I built</span>
+            <ul class="blist">
+              <li>Create AR product visualisation applications for machine parts and vehicles, with real-time material editing, animation playback, and component inspection;</li>
+              <li>Reconstruct physical spaces from point clouds to recognise cabinets and reveal their contents as augmented overlays;</li>
+              <li>Engineer a warehouse prototype that reads an incoming package on arrival, guides the operator to the correct shelf, and marks the exact insertion point in AR;</li>
+              <li>Layer an animated digital twin over a physical scale model through plane detection, turning a static mockup into a living presentation surface;</li>
+              <li>Craft every interface in these applications, from screen-space HUDs to world-anchored panels and interaction affordances;</li>
+              <li>Ship builds to Android and iOS through Xcode, validating tracking stability and runtime performance on target hardware;</li>
+            </ul>
+          </div>
+          <div class="spec">
+            <div class="spec__r"><div class="spec__k">Role</div><div class="spec__v">AR Developer &amp; UI Implementation</div></div>
+            <div class="spec__r"><div class="spec__k">Stack</div><div class="spec__v">Unity · C# · AR Foundation · ARKit · ARCore · Point clouds · Xcode</div></div>
+            <div class="spec__r"><div class="spec__k">Features</div><div class="spec__v">Plane detection · Image tracking · Anchors · Object recognition · 3D placement</div></div>
+            <div class="spec__r"><div class="spec__k">Scope</div><div class="spec__v">Prototypes through production applications</div></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="proj">
+        <summary>
+          <span class="proj__n">002</span>
+          <span class="proj__t">Virtual Reality</span>
+          <span class="proj__k">Headset XR</span>
+          <span class="proj__x">+</span>
+        </summary>
+        <div class="proj__body">
+          <div class="proj__txt">
+            <p>Immersive worlds, multiplayer prototypes, and the interaction and interface layers
+            that hold them together — built for headsets with OpenXR and the XR Interaction
+            Toolkit.</p>
+            <span class="blist-h">What I built</span>
+            <ul class="blist">
+              <li>Author immersive worlds and social spaces for Microsoft AltspaceVR, including environments carrying several minigames such as planting and harvesting loops and pinball;</li>
+              <li>Script gameplay rules, scoring, and interaction logic that stay stable in shared, always-on virtual spaces;</li>
+              <li>Assemble a multiplayer interactive prototype with networked rooms using OpenXR and the XR Interaction Toolkit;</li>
+              <li>Enable in-world voice communication through Vivox, tying audio presence to player position;</li>
+              <li>Establish the supporting backend on AWS for rooms, sessions, and shared state;</li>
+              <li>Adapt every interface to world space, accounting for reach distance, scale, and readability inside a headset;</li>
+            </ul>
+
+            <div class="feat">
+              <div class="feat__h">
+                <span class="feat__t">Can You Hear Me?</span>
+                <span class="feat__m">Meta Quest · 2023</span>
+              </div>
+              <div class="feat__b">
+                <p>A first-person VR journey through a polluted ocean, made for the Voice of the
+                Oceans project. Players explore the environment, meet the marine life living in it,
+                and free the animals trapped in plastic. Free on the Meta Store, in English and
+                Portuguese.</p>
+                <span class="blist-h">What I built</span>
+                <ul class="blist">
+                  <li>Program the complete interface layer of the experience, from HUD to world-anchored panels;</li>
+                  <li>Compose interaction feedback and UI states around the pacing of the journey;</li>
+                  <li>Devise mechanics and behaviours for the NPCs players meet along the way;</li>
+                  <li>Refine usability, readability, and comfort through iteration on the running build;</li>
+                </ul>
+                <a class="go" href="https://www.meta.com/pt-br/experiences/can-you-hear-me/6818170608231575/"
+                   target="_blank" rel="noopener">Open on Meta Store <span>→</span></a>
+              </div>
+            </div>
+          </div>
+          <div class="spec">
+            <div class="spec__r"><div class="spec__k">Role</div><div class="spec__v">VR Developer &amp; UI Implementation</div></div>
+            <div class="spec__r"><div class="spec__k">Stack</div><div class="spec__v">Unity · C# · OpenXR · XR Interaction Toolkit · Vivox · AWS · Meta Quest</div></div>
+            <div class="spec__r"><div class="spec__k">Features</div><div class="spec__v">Multiplayer rooms · Voice chat · Minigames · World-space UI · Hand and controller input</div></div>
+            <div class="spec__r"><div class="spec__k">Platforms</div><div class="spec__v">Meta Quest 2 · Quest 3 · Quest Pro · AltspaceVR</div></div>
+            <div class="spec__r"><div class="spec__k">Released</div><div class="spec__v">Can You Hear Me? — Meta Store, 2023</div></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="proj">
+        <summary>
+          <span class="proj__n">003</span>
+          <span class="proj__t">Experiments</span>
+          <span class="proj__k">Prototypes · WebGL</span>
+          <span class="proj__x">+</span>
+        </summary>
+        <div class="proj__body">
+          <div class="proj__txt">
+            <p>Small, fast prototypes I build to try things out — intentionally narrow in scope,
+            and playable straight from the browser.</p>
+            <span class="blist-h">What I use them for</span>
+            <ul class="blist">
+              <li>Explore new mechanics, interactions, interfaces, and technologies at a scale that stays throwaway;</li>
+              <li>Test technical approaches before they turn into larger applications;</li>
+              <li>Publish playable builds with Unity WebGL so the experiment runs straight from the browser;</li>
+            </ul>
+            <a class="go" href="https://github.com/ericka-psilva" target="_blank" rel="noopener">See them on GitHub <span>→</span></a>
+          </div>
+          <div class="spec">
+            <div class="spec__r"><div class="spec__k">Unity</div><div class="spec__v">Gameplay mechanics, UI, animation, real-time systems</div></div>
+            <div class="spec__r"><div class="spec__k">XR</div><div class="spec__v">Spatial interaction, immersive interfaces, input systems</div></div>
+            <div class="spec__r"><div class="spec__k">Games</div><div class="spec__v">Mechanics and interaction tests</div></div>
+            <div class="spec__r"><div class="spec__k">Build</div><div class="spec__v">Unity WebGL</div></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 CRAFT (TABS) ================= -->
+<section id="craft" class="sec">
+  <div class="sheet">
+    <div class="sheet__mk">03<span>Craft</span></div>
+    <div class="rv">
+      <h2 class="h2">How the work gets built.</h2>
+      <p class="prose--mono dim lede">Flow in Figma, prototype in Unity, test on the device,
+      iterate until the experience feels right. Pick a layer to see what that involves.</p>
+
+      <div class="tabs" role="tablist" aria-label="Craft layers">
+        <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true">Experience Design</button>
+        <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false">Unity</button>
+        <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false">Interfaces</button>
+        <button class="tab" role="tab" id="t4" aria-controls="p4" aria-selected="false">Virtual Reality</button>
+        <button class="tab" role="tab" id="t5" aria-controls="p5" aria-selected="false">Augmented Reality</button>
+        <button class="tab" role="tab" id="t6" aria-controls="p6" aria-selected="false">Systems</button>
+        <button class="tab" role="tab" id="t7" aria-controls="p7" aria-selected="false">3D</button>
+        <button class="tab" role="tab" id="t8" aria-controls="p8" aria-selected="false">Platforms</button>
+      </div>
+
+      <div class="panel" id="p1" role="tabpanel" aria-labelledby="t1" data-open>
+        <div><h3>Designing the experience first</h3>
+        <p>I use Figma to design interfaces, user flows, interactions, and the structure of an
+        experience before implementation. For immersive applications that means thinking past flat
+        screens: how information, feedback, scale, distance, and space behave inside a
+        three-dimensional environment.</p></div>
+        <ul class="chips"><li>Figma</li><li>User flows</li><li>UI design</li><li>Interaction design</li><li>Prototyping</li></ul>
+      </div>
+
+      <div class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+        <div><h3>Unity &amp; C#</h3>
+        <p>Unity is my main development environment. I write C# for application logic,
+        interactions, gameplay systems, reusable components, controllers, data flow, state
+        management, and communication between parts of an application — working closely with
+        Unity's component architecture, prefabs, scenes, and events.</p></div>
+        <ul class="chips"><li>C# scripts</li><li>Components</li><li>Prefabs</li><li>Scenes</li><li>Events</li><li>Scriptable systems</li></ul>
+      </div>
+
+      <div class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+        <div><h3>Flat and spatial interfaces</h3>
+        <p>I build both traditional and immersive interfaces inside Unity. For XR, interface design
+        also involves placement, physical distance, readability, interaction method, and how UI
+        elements exist inside the user's environment.</p></div>
+        <ul class="chips"><li>Canvas</li><li>Screen space</li><li>World space</li><li>UI Toolkit</li></ul>
+      </div>
+
+      <div class="panel" id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+        <div><h3>OpenXR &amp; XR Interaction Toolkit</h3>
+        <p>Controller input, hand interaction, object manipulation, ray and grab interactions,
+        locomotion, spatial UI, and interaction feedback — extending into networked rooms and voice
+        presence when the experience is shared. Whenever possible I use OpenXR so projects stay
+        less dependent on a single hardware platform.</p></div>
+        <ul class="chips"><li>Meta Quest</li><li>6DoF</li><li>Hand tracking</li><li>Locomotion</li><li>Spatial UI</li><li>Multiplayer</li></ul>
+      </div>
+
+      <div class="panel" id="p5" role="tabpanel" aria-labelledby="t5" hidden>
+        <div><h3>AR Foundation &amp; mobile AR</h3>
+        <p>Experiences that connect real-world environments with interactive digital content:
+        image tracking, plane detection, anchors, camera-based interactions, 3D placement, tracked
+        content, and contextual interfaces.</p></div>
+        <ul class="chips"><li>Image tracking</li><li>Plane detection</li><li>Anchors</li><li>Point clouds</li><li>Android</li><li>iOS</li></ul>
+      </div>
+
+      <div class="panel" id="p6" role="tabpanel" aria-labelledby="t6" hidden>
+        <div><h3>Interactive systems</h3>
+        <p>A large part of my work happens behind what the user sees: application states,
+        interactions, events, UI behavior, gameplay mechanics, and data flow — structured to stay
+        modular and reusable as prototypes grow into larger applications.</p></div>
+        <ul class="chips"><li>State management</li><li>Event systems</li><li>Gameplay logic</li><li>Data flow</li></ul>
+      </div>
+
+      <div class="panel" id="p7" role="tabpanel" aria-labelledby="t7" hidden>
+        <div><h3>3D integration</h3>
+        <p>Scene composition, models, materials, lighting, animation, optimization, and configuring
+        assets so they behave correctly inside Unity. I use Blender when assets need preparation or
+        adjustment before integration.</p></div>
+        <ul class="chips"><li>Blender</li><li>Materials</li><li>Lighting</li><li>Animation</li><li>Optimization</li></ul>
+      </div>
+
+      <div class="panel" id="p8" role="tabpanel" aria-labelledby="t8" hidden>
+        <div><h3>Platforms &amp; deployment</h3>
+        <p>For XR I develop and test directly on devices such as Meta Quest. For browser projects I
+        use Unity WebGL so builds stay playable from the web. For mobile I work with Android and
+        iOS builds, including Xcode for Apple platforms.</p></div>
+        <ul class="chips"><li>Meta Quest</li><li>WebGL</li><li>Android</li><li>iOS · iPadOS</li><li>Xcode</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 PROCESS ================= -->
+<section id="process" class="sec">
+  <div class="sheet">
+    <div class="sheet__mk">04<span>Process</span></div>
+    <div class="rv">
+      <h2 class="h2">Idea. Prototype. Experience.</h2>
+      <p class="prose--mono dim lede">Six steps that repeat, not a straight line — most projects
+      loop back from test to prototype more than once.</p>
+      <div class="flow">
+        <div class="step"><b>01</b><h4>Understand</h4><p>Who will use it, where, and what they should feel or accomplish.</p></div>
+        <div class="step"><b>02</b><h4>Design</h4><p>Flows, interfaces, interaction concepts, references.</p></div>
+        <div class="step"><b>03</b><h4>Prototype</h4><p>Something interactive early. It answers what documents can't.</p></div>
+        <div class="step"><b>04</b><h4>Build</h4><p>Systems, interactions, interfaces, technical architecture.</p></div>
+        <div class="step"><b>05</b><h4>Test</h4><p>On the target device. Scale and comfort don't show in the editor.</p></div>
+        <div class="step"><b>06</b><h4>Iterate</h4><p>Keep what works, refine the rest, run it again.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 STACK ================= -->
+<section id="stack" class="sec">
+  <div class="sheet">
+    <div class="sheet__mk">05<span>Stack</span></div>
+    <div class="rv">
+      <h2 class="h2">Tools I work with.</h2>
+      <table class="bom">
+        <caption>Parts list — current working set</caption>
+        <thead><tr><th>Group</th><th>Items</th><th>Used for</th></tr></thead>
+        <tbody>
+          <tr><td>Development</td><td>Unity · C# · Python · Git · Web technologies</td><td>Real-time applications and tooling</td></tr>
+          <tr><td>XR</td><td>OpenXR · XR Interaction Toolkit · AR Foundation · ARKit · ARCore · Meta Quest · AltspaceVR</td><td>Immersive interaction and device support</td></tr>
+          <tr><td>Interface</td><td>Figma · UI design · User flows · Prototyping</td><td>Experience structure before implementation</td></tr>
+          <tr><td>Unity</td><td>Canvas · World space UI · UI Toolkit · Prefabs · Events · Physics · Input System</td><td>Day-to-day building blocks</td></tr>
+          <tr><td>Multiplayer</td><td>Vivox · AWS · Networked rooms · Shared state · Voice chat</td><td>Social and multi-user experiences</td></tr>
+          <tr><td>3D</td><td>Unity 3D · Blender · Materials · Lighting · Animation</td><td>Scene composition and asset preparation</td></tr>
+          <tr><td>Platforms</td><td>Meta Quest · WebGL · Android · iOS · iPadOS · Xcode</td><td>Builds, testing, and deployment</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 BACKGROUND ================= -->
+<section id="background" class="sec">
+  <div class="sheet">
+    <div class="sheet__mk">06<span>Background</span></div>
+    <div class="rv">
+      <h2 class="h2">Experience &amp; education.</h2>
+      <div class="tl">
+        <div class="tl__i">
+          <div class="tl__y">2017 — PRESENT</div>
+          <h3>Accenture</h3>
+          <div class="tl__s">XR &amp; Software Developer</div>
+          <p>Digital solutions across different business contexts, combining software engineering,
+          application development, prototyping, and emerging technologies &mdash; more recently
+          focused on Unity, immersive experiences, and real-time 3D.</p>
+          <span class="blist-h">Responsibilities</span>
+          <ul class="blist">
+            <li>Develop immersive applications and real-time 3D solutions in Unity and C# for clients across different business contexts;</li>
+            <li>Implement spatial interaction systems &mdash; controller input, hand interaction, grab and ray interactions, locomotion, and world-space UI &mdash; with OpenXR and the XR Interaction Toolkit;</li>
+            <li>Architect modular, reusable code structures (components, prefabs, events, state management) that scale from prototype to production;</li>
+            <li>Integrate XR devices, SDKs, and external APIs into Unity applications, including Meta Quest standalone hardware;</li>
+            <li>Prototype proofs of concept for emerging technologies, validating technical feasibility before full development;</li>
+            <li>Optimize runtime performance for standalone devices, working on frame rate, draw calls, batching, lighting, and asset budgets;</li>
+            <li>Build and deploy applications for Meta Quest, Android, iOS (Xcode), and WebGL;</li>
+            <li>Conduct on-device testing of usability, comfort, scale, and spatial perception, iterating from user feedback;</li>
+            <li>Translate business requirements into technical specifications alongside design, product, and 3D teams in agile workflows;</li>
+            <li>Maintain version control and collaborative development routines with Git;</li>
+          </ul>
+          <p class="tl__proj"><b>Shipped</b> <a href="#experience">Can You Hear Me? &mdash; VR experience on the Meta Store</a></p>
+        </div>
+        <div class="tl__i">
+          <div class="tl__y">CURRENT</div>
+          <h3>Information Systems</h3>
+          <div class="tl__s">Federal Rural University of Pernambuco — UFRPE</div>
+          <p>Completing my Bachelor's degree, expanding my background in software development,
+          information systems, and applying computing to real-world problems.</p>
+        </div>
+        <div class="tl__i">
+          <div class="tl__y">3 YEARS</div>
+          <h3>Computer Science</h3>
+          <div class="tl__s">Federal University of Pernambuco — UFPE</div>
+          <p>A stronger foundation in programming, algorithms, computing theory, software
+          development, and computer systems.</p>
+        </div>
+        <div class="tl__i">
+          <div class="tl__y">2010 — 2012</div>
+          <h3>Technical Degree in Game Development</h3>
+          <div class="tl__s">Where it started</div>
+          <p>My first formal experience with software development: programming, logic, game
+          development, interactive systems, and computer graphics.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 07 CONTACT ================= -->
+<section id="contact" class="contact">
+  <div class="rv" style="max-width:1180px">
+    <span class="tag">07 / Contact</span>
+    <h2>Let's build something people can experience.</h2>
+    <p class="prose--mono">Technology can be a tool, infrastructure, or a product. The work that
+    interests me most happens when a screen becomes a world, an interface becomes an interaction,
+    and an idea becomes something someone can actually explore. Always open to conversations about
+    Unity, XR, game development, VR, AR — or some strangely specific idea worth prototyping.</p>
+
+    <div class="chan">
+      <a href="https://www.linkedin.com/in/erickapricila/" target="_blank" rel="noopener"><span class="chan__n">01</span><span class="chan__l">LinkedIn</span><span class="chan__v">/in/erickapricila</span></a>
+      <a href="https://github.com/ericka-psilva" target="_blank" rel="noopener"><span class="chan__n">02</span><span class="chan__l">GitHub</span><span class="chan__v">github.com/ericka-psilva</span></a>
+      <a href="mailto:psilva.ericka@gmail.com"><span class="chan__n">03</span><span class="chan__l">Email</span><span class="chan__v">psilva.ericka@gmail.com</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TITLE BLOCK ================= -->
+<footer class="tblock">
+  <div><b>Project</b>Portfolio</div>
+  <div><b>Author</b>Ericka Pricila</div>
+  <div><b>Discipline</b>XR &amp; Game Dev</div>
+  <div><b>Scale</b>1:1 — Room scale</div>
+  <div><b>Rev</b>2026 · 01</div>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* reveal */
+  var items = document.querySelectorAll('.rv');
+  if(reduce || !('IntersectionObserver' in window)){
+    items.forEach(function(el){el.classList.add('in');});
+  } else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{rootMargin:'0px 0px -10% 0px',threshold:.04});
+    items.forEach(function(el){io.observe(el);});
+  }
+
+  /* tabs */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function select(i){
+    tabs.forEach(function(t,j){
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      var on = i === j;
+      t.setAttribute('aria-selected', on);
+      if(on){ panel.hidden = false; panel.setAttribute('data-open',''); }
+      else { panel.hidden = true; panel.removeAttribute('data-open'); }
+    });
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click', function(){ select(i); });
+    t.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if(!d) return;
+      e.preventDefault();
+      var n = (i + d + tabs.length) % tabs.length;
+      tabs[n].focus(); select(n);
+    });
+  });
+
+  /* accordion: one open at a time */
+  var projs = Array.prototype.slice.call(document.querySelectorAll('.proj'));
+  projs.forEach(function(p){
+    p.addEventListener('toggle', function(){
+      if(p.open) projs.forEach(function(o){ if(o !== p) o.open = false; });
+    });
+  });
+
+  /* rail index active state */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.idx a'));
+  var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  function sync(){
+    var y = window.scrollY + window.innerHeight * .32, cur = -1;
+    secs.forEach(function(s,i){ if(s && s.offsetTop <= y) cur = i; });
+    links.forEach(function(a,i){ a.classList.toggle('on', i === cur); });
+  }
+  /* interactive cube demo */
+  (function(){
+    var svg = document.getElementById('demoSvg');
+    if(!svg) return;
+    var cube   = document.getElementById('cube'),
+        bubble = document.getElementById('bubble'),
+        text   = document.getElementById('bubbleText');
+
+    var STEP = 40, LIMIT = 80, x = 0, y = 0;
+    var DIRS = {w:[0,-1], a:[-1,0], s:[0,1], d:[1,0]};
+    var KEYS = {w:'w', a:'a', s:'s', d:'d',
+                arrowup:'w', arrowleft:'a', arrowdown:'s', arrowright:'d'};
+
+    function render(){
+      cube.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+      bubble.style.transform =
+        'translate(' + (0.6495 * (x - y)) + 'px,' + (0.375 * (x + y)) + 'px)';
+    }
+
+    function flash(dir){
+      var hits = svg.querySelectorAll('[data-dir="' + dir + '"]');
+      Array.prototype.forEach.call(hits, function(el){
+        el.classList.add('hit');
+        setTimeout(function(){ el.classList.remove('hit'); }, 170);
+      });
+    }
+
+    function move(dir){
+      var d = DIRS[dir];
+      if(!d) return;
+      var nx = Math.max(-LIMIT, Math.min(LIMIT, x + d[0] * STEP)),
+          ny = Math.max(-LIMIT, Math.min(LIMIT, y + d[1] * STEP));
+      flash(dir);
+      if(nx === x && ny === y){ say('oof'); return; }
+      x = nx; y = ny;
+      say(dir.toUpperCase());
+      render();
+    }
+
+    var sayTimer;
+    function say(msg){
+      text.textContent = msg;
+      clearTimeout(sayTimer);
+      sayTimer = setTimeout(function(){ text.textContent = 'hi'; }, 900);
+    }
+
+    function reset(){
+      x = 0; y = 0; render(); say('hi');
+      text.textContent = 'hi';
+    }
+
+    function inView(){
+      var r = svg.getBoundingClientRect();
+      return r.bottom > 60 && r.top < window.innerHeight - 40;
+    }
+
+    window.addEventListener('keydown', function(e){
+      if(!inView()) return;
+      var k = (e.key || '').toLowerCase();
+      if(k === 'escape'){ reset(); return; }
+      if(KEYS[k]){ e.preventDefault(); move(KEYS[k]); }
+    });
+
+    Array.prototype.forEach.call(svg.querySelectorAll('.tile'), function(t){
+      var dir = t.getAttribute('data-dir');
+      t.addEventListener('click', function(){ move(dir); });
+      t.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); move(dir); }
+      });
+    });
+
+    render();
+  })();
+
+  window.addEventListener('scroll', sync, {passive:true});
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
+</body>
+</html>
